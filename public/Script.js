@@ -43,26 +43,15 @@ $(document).ready(function () {
         "Fullstack Developer",
         "Software Developer",
         "Website Developer",
-        "Founder",
-        "Author"
+        "React Developer",
+        "Mern Stack"
       ],
       typeSpeed: 100,
       backSpeed: 60,
       loop: true
     });
   
-    var typed = new Typed(".typing-2", {
-      strings: [
-        "Fullstack Developer",
-        "Software Developer",
-        "Website Developer",
-        "Founder",
-        "Author"
-      ],
-      typeSpeed: 100,
-      backSpeed: 60,
-      loop: true
-    });
+  
   
     //  Owl Carousel  //
   

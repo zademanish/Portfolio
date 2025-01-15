@@ -1,5 +1,6 @@
 import React from 'react'
 import resume from '../Assets/M-Z resume (1).pdf'
+import Img from "../Assets/L&R-6.jpg"
 
 function About() {
   return (
@@ -9,7 +10,7 @@ function About() {
           <h2 class="title">About Me</h2>
           <div class="about-content">
             <div class="column left">
-              <img src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile Image 626x626"/>
+              <img src={Img} alt="Profile Image 626x626"/>
             </div>
             <div class="column right">
               <div class="text">I'm Manish and I'm a <span class="typing-2"></span></div>
