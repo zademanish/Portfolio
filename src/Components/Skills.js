@@ -5,83 +5,98 @@ function Skills() {
     <>
     <section className="skills" id="skills">
         <div className="max-width">
-          <h2 className="title">My Skills</h2>
+          <h2 className="title">My Skills & Journey</h2>
           <div className="skills-content">
-            <div className="column left">
-    
-              <div className="text">INTERNSHIP</div>
-              <p>
-                <li className="intern">#Company Name "Where You work"</li>
-                <li className="intern">#Company Name "Where You work"</li>
-                <li className="intern">#Company Name "Where You work"</li>
-              </p>
-    
-              <br/>
-              <div className="text">PROJECT</div>
-    
-              <p>
-                <li className="project">Portfolio (HTML, CSS, js, React, Bootstraps)</li>
-                <li className="project">eCommerce Website (Shopify liquid-code, HTML, CSS)</li>
-                <li className="project">QuickShop - eCommerce Website (Shopzen application.)</li>
-                <li className="project">Fully Responsive Design Email Subscribe form</li>
-                <li className="project">Blog (HTML, CSS, Bootstraps)</li>
-              </p>
-    
+            <div className="column left reveal-left">
+              <div className="text">PROFESSIONAL JOURNEY</div>
+              
+              <div className="timeline">
+                <div className="timeline-item">
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-date">Feb 2026 - Present</div>
+                  <div className="timeline-content">
+                    <h3>KAYCOMM SERVICES PVT LTD</h3>
+                    <p>MERN Stack Developer</p>
+                    <small>Developed Ledger Documentation System and implemented granular permission control for HRMS project. Enhanced Urban Pillar platform with Vastu checks and location mapping.</small>
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-date">Jul 2025 - Jan 2026</div>
+                  <div className="timeline-content">
+                    <h3>TechnoNexis</h3>
+                    <p>MERN Stack Intern</p>
+                    <small>Developed multi-role dashboards and mall navigation systems with QR scanning and real-time shop location display.</small>
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="timeline-dot"></div>
+                  <div className="timeline-date">2022 - 2024</div>
+                  <div className="timeline-content">
+                    <h3>MCA Degree</h3>
+                    <p>Suryadatta Institute, Pune</p>
+                    <small>Master of Computer Applications | CGPA: 7.40</small>
+                  </div>
+                </div>
+              </div>
+
               <br/>
               <div className="text">DEVELOPMENT SKILLS</div>
-    
               <p>
-                I'm familiar & work on a daily basis with HTML, CSS, JavaScript, Bootstrap, React js and other modern frameworks.
+                <strong>Frontend:</strong> React.js, Redux, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Bootstrap.<br/>
+                <strong>Backend:</strong> Node.js, Express.js, RESTful APIs, WebSockets, Socket.io, Redis, Auth.<br/>
+                <strong>Tools:</strong> MongoDB, Mongoose, Docker, Git, GitHub, Cloudinary, Postman, VS Code, npm.
               </p>
-              <a href="#" target="blank">Get Educate...</a>
             </div>
-            <div className="column right">
+            <div className="column right reveal-right">
               <div className="bars">
                 <div className="info">
-                  <span>JavaScript</span>
+                  <span>MERN Stack</span>
                   <span>90%</span>
                 </div>
                 <div className="line javaScript"></div>
               </div>
               <div className="bars">
                 <div className="info">
-                  <span>HTML</span>
-                  <span>80%</span>
+                  <span>React.js / Redux</span>
+                  <span>85%</span>
                 </div>
                 <div className="line html"></div>
               </div>
               <div className="bars">
                 <div className="info">
-                  <span>CSS</span>
-                  <span>75%</span>
+                  <span>Node.js / Express</span>
+                  <span>80%</span>
                 </div>
                 <div className="line css"></div>
               </div>
               <div className="bars">
                 <div className="info">
-                  <span>NodeJs</span>
-                  <span>60%</span>
+                  <span>Redis / WebSockets</span>
+                  <span>75%</span>
                 </div>
                 <div className="line node"></div>
               </div>
               <div className="bars">
                 <div className="info">
-                  <span>Bootstraps</span>
-                  <span>70%</span>
+                  <span>MongoDB / SQL</span>
+                  <span>80%</span>
                 </div>
                 <div className="line bootstraps"></div>
               </div>
               <div className="bars">
                 <div className="info">
-                  <span>ReactJs</span>
-                  <span>65%</span>
+                  <span>Tailwind / Bootstrap</span>
+                  <span>85%</span>
                 </div>
                 <div className="line react"></div>
               </div>
               <div className="bars">
                 <div className="info">
-                  <span>MongoDb</span>
-                  <span>65%</span>
+                  <span>Docker / Git</span>
+                  <span>70%</span>
                 </div>
                 <div className="line mongodb"></div>
               </div>

@@ -1,25 +1,67 @@
-import React from 'react'
-import resume from '../Assets/M-Z resume (1).pdf'
-import Img from "../Assets/L&R-6.jpg"
+import React, { useEffect, useState } from 'react';
+import Img from '../Assets/WhatsApp Image 2024-08-13 at 18.28.45_ed5beb3b.jpg';
+import resume from '../Assets/Resume.pdf';
 
 function About() {
+  const [stats, setStats] = useState({ repos: 0, followers: 0, following: 0, gists: 0 });
+
+  useEffect(() => {
+    fetch('https://api.github.com/users/zademanish')
+      .then(res => res.json())
+      .then(data => {
+        setStats({
+          repos: data.public_repos || 25,
+          followers: data.followers || 10,
+          following: data.following || 5,
+          gists: data.public_gists || 0
+        });
+      })
+      .catch(() => setStats({ repos: 25, followers: 10, following: 5, gists: 0 }));
+  }, []);
+
   return (
     <>
-     <section class="about" id="about">
-        <div class="max-width">
-          <h2 class="title">About Me</h2>
-          <div class="about-content">
-            <div class="column left">
-              <img src={Img} alt="Profile Image 626x626"/>
+      <section className="about" id="about">
+        <div className="max-width">
+          <h2 className="title">About Me</h2>
+          <div className="about-content">
+            <div className="column left reveal-left">
+              <img src="https://avatars.githubusercontent.com/u/94970052?v=4" alt="Manish Zade" />
+
+              <div className="github-stats">
+                <div className="stat-card">
+                  <span className="stat-value">{stats.repos}</span>
+                  <span className="stat-label">Repositories</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{stats.followers}</span>
+                  <span className="stat-label">Followers</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{stats.following}</span>
+                  <span className="stat-label">Following</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{stats.gists}</span>
+                  <span className="stat-label">Gists</span>
+                </div>
+              </div>
+              <a href="https://github.com/zademanish" target="_blank" rel="noreferrer" className="github-profile-btn">
+                <i className="fab fa-github"></i> View GitHub Profile
+              </a>
             </div>
-            <div class="column right">
-              <div class="text">I'm Manish and I'm a <span class="typing-2"></span></div>
-              <p>Seeking an entry-level opportunity with an esteemed organization where I can utilize my skills & enhance learning in the field of work. Capable of mastering new technologies.</p>
-              <br/>
-              <div class="text">Why Work With Me</div>
-              <p>I'm a great communicator & love to invest the necessary time to understand the customer's problem very well.</p>
-    
-              <a href={resume} download='resume'>Download CV</a>
+            <div className="column right reveal-right">
+              <div className="text">I'm Manish Zade and I'm a <span className="typing-2"></span></div>
+              <p>Full Stack MERN Developer with expertise in building scalable web apps, optimizing performance (40% faster response times using Redis + MongoDB), and delivering end-to-end solutions. Experienced in real-time systems, eCommerce, and social platforms.</p>
+              <br />
+              <div className="text">Education</div>
+              <p><strong>Master of Computer Applications (MCA)</strong> - CGPA: 7.40</p>
+              <p>Suryadatta Institute of Business Management & Technology, Pune | 2022 – 2024</p>
+              <br />
+              <div className="text">Why Work With Me</div>
+              <p>I'm a great communicator & love to invest the necessary time to understand the customer's problem very well, focusing on performance optimization and scalable architecture.</p>
+
+              <a href={resume} download='resume' className="magnetic">Download CV</a>
             </div>
           </div>
         </div>

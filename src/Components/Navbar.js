@@ -15,6 +15,7 @@ function Navbar() {
             <li><a href="#services" className="menu-btn"><strong>Services</strong></a></li>
             <li><a href="#skills" className="menu-btn"><strong>Skills</strong></a></li>
             <li><a href="#projects" className="menu-btn"><strong>Projects</strong></a></li>
+            <li><a href="#github" className="menu-btn"><strong>GitHub</strong></a></li>
             <li><a href="#contact" className="menu-btn"><strong>Contact</strong></a></li>
           </ul>
           <div className="menu-btn">

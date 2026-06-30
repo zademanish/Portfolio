@@ -40,11 +40,24 @@ $(document).ready(function () {
   
     var typed = new Typed(".typing", {
       strings: [
-        "Fullstack Developer",
-        "Software Developer",
-        "Website Developer",
-        "React Developer",
-        "Mern Stack"
+        "Full Stack Developer",
+        "MERN Stack Developer",
+        "Backend Specialist",
+        "React Expert",
+        "Performance Optimizer"
+      ],
+      typeSpeed: 100,
+      backSpeed: 60,
+      loop: true
+    });
+  
+    var typed2 = new Typed(".typing-2", {
+      strings: [
+        "Full Stack Developer",
+        "MERN Stack Developer",
+        "Backend Specialist",
+        "React Expert",
+        "Performance Optimizer"
       ],
       typeSpeed: 100,
       backSpeed: 60,
@@ -59,8 +72,12 @@ $(document).ready(function () {
       margin: 20,
       loop: true,
       autoplay: true,
-      autoplayTimeOut: 2000,
+      autoplayTimeOut: 3000,
       autoplayHoverPause: true,
+      center: true,
+      nav: true,
+      dots: true,
+      navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
       responsive: {
         0: {
           items: 1,
@@ -72,7 +89,7 @@ $(document).ready(function () {
         },
         1000: {
           items: 3,
-          nav: false
+          nav: true
         }
       }
     });
