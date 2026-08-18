@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git rm *)",
+      "Bash(npx react-scripts *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3111)",
+      "Bash(BROWSER=none PORT=3111 npx react-scripts start)",
+      "Bash(curl -s -o /dev/null http://localhost:3111)"
+    ]
+  }
+}

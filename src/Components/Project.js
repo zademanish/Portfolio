@@ -6,12 +6,19 @@ function Project() {
       <section className="projects" id="projects">
         <div className="max-width">
           <h2 className="title">My Projects</h2>
-          <div className="carousel owl-carousel">
+          {/* Owl Carousel removed: it pulled in jQuery + Owl (~120KB) to lay
+              out four static cards. A CSS grid does the same job for free and
+              stops jQuery from fighting Lenis over the scroll position. */}
+          <div className="carousel">
             <div className="card">
               <div className="box">
                 <img
-                  src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=500&auto=format&fit=crop&q=60"
+                  src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=300&auto=format&fit=crop&q=60"
                   alt="ShopNow"
+                  width="150"
+                  height="150"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="text">ShopNow</div>
                 <div className="badges">
@@ -34,8 +41,12 @@ function Project() {
             <div className="card">
               <div className="box">
                 <img
-                  src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&auto=format&fit=crop&q=60"
+                  src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=300&auto=format&fit=crop&q=60"
                   alt="Vybe"
+                  width="150"
+                  height="150"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="text">Vybe</div>
                 <div className="badges">
@@ -58,8 +69,12 @@ function Project() {
             <div className="card">
               <div className="box">
                 <img
-                  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60"
+                  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&auto=format&fit=crop&q=60"
                   alt="Kavach"
+                  width="150"
+                  height="150"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="text">Kavach</div>
                 <div className="badges">
@@ -72,7 +87,8 @@ function Project() {
                 </p>
                 <div className="wrap">
                   <div className="fill-wrap">
-                    <a href="#" className="btn btn-color btn-l-r">Private Repo</a>
+                    {/* Not a link — href="#" jumped the page to the top. */}
+                    <span className="btn btn-color btn-l-r btn-disabled">Private Repo</span>
                   </div>
                 </div>
               </div>
@@ -80,8 +96,12 @@ function Project() {
             <div className="card">
               <div className="box">
                 <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60"
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&auto=format&fit=crop&q=60"
                   alt="Portfolio"
+                  width="150"
+                  height="150"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="text">Portfolio</div>
                 <div className="badges">
@@ -94,7 +114,7 @@ function Project() {
                 </p>
                 <div className="wrap">
                   <div className="fill-wrap">
-                    <a href="#" className="btn btn-color btn-l-r">Current Site</a>
+                    <span className="btn btn-color btn-l-r btn-disabled">Current Site</span>
                   </div>
                 </div>
               </div>

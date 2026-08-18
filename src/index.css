@@ -65,13 +65,36 @@ body {
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
-  cursor: none !important;
-  /* Hide default cursor */
 }
 
+/* Only hide the real pointer where the custom cursor is actually running.
+   App.js adds this class after mounting the cursor, and never on touch
+   devices or under prefers-reduced-motion. It used to be `cursor: none
+   !important` on `*`, which left touch and assistive users with no pointer
+   at all and nothing to replace it. */
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none;
+}
 
+/* NOTE: `scroll-behavior: smooth` must NOT be set here. Lenis drives the
+   scroll position itself, and native smooth scrolling on top of it makes the
+   browser and Lenis animate toward different targets on every anchor jump —
+   which is what made the page stutter and stick. */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+}
+
+/* Strip UA chrome from the elements that became real <button>s for keyboard
+   and screen-reader support. Background is left alone here: each of these
+   rules sets its own further down, and .theme-toggle's is defined above. */
+.theme-toggle,
+.menu-btn,
+.scroll-up-btn {
+  border: none;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 ::-webkit-scrollbar {
@@ -147,28 +170,38 @@ html {
 
 
 /* Custom Cursor */
+/* Both are positioned by GSAP. The CSS transitions that used to sit here
+   fought those writes every frame — the browser interpolated toward one
+   value while GSAP wrote the next — so the cursor lagged behind the pointer. */
 #cursor {
   height: 20px;
   width: 20px;
   background-color: var(--accent-color);
   border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 10000;
-  transition: transform 0.1s linear;
   pointer-events: none;
+  will-change: transform;
 }
 
 #cursorBlur {
-  height: 300px;
-  width: 300px;
+  /* 300px at blur(80px) meant re-rasterising a ~460px blurred layer on every
+     pointer move, which is expensive enough to eat the scroll frame budget.
+     Smaller radius, smaller blur, same look. */
+  height: 260px;
+  width: 260px;
   background-color: var(--accent-color);
   opacity: 0.15;
   border-radius: 50%;
   position: fixed;
-  filter: blur(80px);
+  top: 0;
+  left: 0;
+  filter: blur(60px);
   z-index: 9999;
-  transition: all 0.2s linear;
   pointer-events: none;
+  will-change: transform;
 }
 
 
@@ -266,11 +299,15 @@ section .title::before {
   z-index: 1000;
 }
 
+/* Full width, scaled by GSAP. Animating `width` reflowed the element on every
+   scroll frame, and the CSS transition on it also fought the scrub tween. */
 #progressBar {
   height: 100%;
-  width: 0%;
+  width: 100%;
   background: linear-gradient(90deg, #1e3551, crimson);
-  transition: width 0.1s ease-out;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
 }
 
 section .title::after {
@@ -362,6 +399,7 @@ section.reveal .title::after {
 /*  Menu Btn  */
 .menu-btn {
   color: var(--text-color);
+  background: none;
   font-size: 23px;
   cursor: pointer;
   display: none;
@@ -444,7 +482,9 @@ section.reveal .title::after {
       transparent 40%);
   z-index: -1;
   pointer-events: none;
-  transition: background 0.1s ease-out;
+  /* No transition: the gradient position is already updated once per frame
+     from JS, and transitioning a background repaints this full-viewport
+     layer on every interpolation step. */
 }
 
 @keyframes bgZoom {
@@ -918,15 +958,29 @@ section.reveal .skills-content .right .mongodb::before {
   content: "What I did ?";
 }
 
+/* Owl Carousel is gone — four static cards never needed jQuery to lay out,
+   and jQuery's scrollTop animation was fighting Lenis for the scroll
+   position. A grid does the same job with no dependency. */
+.projects .carousel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  perspective: 1000px;
+}
+
 .projects .carousel .card {
   background: var(--card-bg);
-  backdrop-filter: blur(10px);
   border: 1px solid var(--glass-bg);
   border-radius: 15px;
   padding: 30px 25px;
   text-align: center;
   overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  /* `transform` is deliberately NOT transitioned: GSAP writes the tilt
+     inline every frame, and a CSS transition on the same property makes the
+     browser interpolate toward each write, so the card visibly trails the
+     pointer. Same reason the :hover translateY below was dropped. */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -944,9 +998,10 @@ section.reveal .skills-content .right .mongodb::before {
 
 
 .projects .carousel .card:hover {
-  /* background: linear-gradient(145deg, var(--accent-color), crimson); */
-  transform: translateY(-10px);
-  border-color: transparent;
+  /* Lift is handled by the GSAP tilt in App.js so the two do not both
+     write `transform`. */
+  border-color: var(--accent-color);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
 }
 
 .projects .carousel .card:hover .text,
@@ -1646,11 +1701,18 @@ footer span a:hover {
   margin-top: auto;
 }
 
-.wrap a {
+/* Also matches the .btn spans that stand in for the two placeholder links. */
+.wrap a,
+.wrap .btn {
   display: block;
   margin: 0.5em auto;
   width: 150px;
   text-align: center;
+}
+
+.btn-disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .btn {
@@ -2047,4 +2109,99 @@ footer span a:hover {
     width: 100%;
     min-width: 100%;
   }
+}
+
+/* ===================================================================
+   Performance & accessibility
+   =================================================================== */
+
+/* Placeholder while the GitHub API resolves. Reserving the height keeps the
+   document from growing by a full section afterwards, which is what threw
+   every ScrollTrigger measurement below it out of alignment. */
+.github-loading {
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.55;
+  font-family: "Poppins", sans-serif;
+}
+
+/* The marquee is a wide, permanently animating layer. Promoting it once
+   avoids re-rasterising on every scroll frame, and `contain: paint` on the
+   clipping wrapper stops its repaints from invalidating the rest of the page.
+   Deliberately no `content-visibility` anywhere: skipping offscreen layout
+   changes the reported document height as you scroll, which is exactly the
+   kind of measurement drift this pass set out to remove. */
+.marquee-content {
+  will-change: transform;
+}
+
+.marquee-container {
+  contain: paint;
+}
+
+.repo-card.static {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* Images should never be the reason the layout jumps after load. */
+.repo-img img,
+.github-avatar,
+.about .about-content .left img {
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* App.js already skips Lenis, the tilt, the magnetic buttons and the
+     spotlight under this preference. This covers the CSS-driven motion. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    /* Zeroed too: the hero text starts at opacity 0 and is revealed by a
+       delayed animation, so a surviving delay would leave it blank. */
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee-content {
+    animation: none;
+    will-change: auto;
+  }
+
+  .particles,
+  #cursor,
+  #cursorBlur {
+    display: none;
+  }
+
+  /* Without this, sections GSAP would have faded in stay at opacity 0. */
+  section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Touch devices never mount the custom cursor, so hide its elements and drop
+   the hover-only decorations they cannot use. */
+@media (hover: none), (pointer: coarse) {
+  #cursor,
+  #cursorBlur {
+    display: none;
+  }
+}
+
+/* Keyboard focus was invisible with the default outline suppressed by the
+   button reset above. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
 }

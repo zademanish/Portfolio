@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import Img from '../Assets/WhatsApp Image 2024-08-13 at 18.28.45_ed5beb3b.jpg';
 import resume from '../Assets/Resume.pdf';
+import TypingText from './TypingText';
+import { fetchJSON, PROFILE_URL } from '../lib/github';
 
 function About() {
-  const [stats, setStats] = useState({ repos: 0, followers: 0, following: 0, gists: 0 });
+  const [stats, setStats] = useState({ repos: 25, followers: 10, following: 5, gists: 0 });
 
   useEffect(() => {
-    fetch('https://api.github.com/users/zademanish')
-      .then(res => res.json())
-      .then(data => {
+    let active = true;
+
+    // Shares one request with <Github />, which reads the same endpoint.
+    fetchJSON(PROFILE_URL)
+      .then((data) => {
+        if (!active) return;
         setStats({
           repos: data.public_repos || 25,
           followers: data.followers || 10,
           following: data.following || 5,
-          gists: data.public_gists || 0
+          gists: data.public_gists || 0,
         });
       })
-      .catch(() => setStats({ repos: 25, followers: 10, following: 5, gists: 0 }));
+      .catch(() => {});
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -26,7 +34,14 @@ function About() {
           <h2 className="title">About Me</h2>
           <div className="about-content">
             <div className="column left reveal-left">
-              <img src="https://avatars.githubusercontent.com/u/94970052?v=4" alt="Manish Zade" />
+              <img
+                src="https://avatars.githubusercontent.com/u/94970052?v=4"
+                alt="Manish Zade"
+                width="400"
+                height="400"
+                loading="lazy"
+                decoding="async"
+              />
 
               <div className="github-stats">
                 <div className="stat-card">
@@ -51,7 +66,7 @@ function About() {
               </a>
             </div>
             <div className="column right reveal-right">
-              <div className="text">I'm Manish Zade and I'm a <span className="typing-2"></span></div>
+              <div className="text">I'm Manish Zade and I'm a <TypingText className="typing-2" /></div>
               <p>Full Stack MERN Developer with expertise in building scalable web apps, optimizing performance (40% faster response times using Redis + MongoDB), and delivering end-to-end solutions. Experienced in real-time systems, eCommerce, and social platforms.</p>
               <br />
               <div className="text">Education</div>
